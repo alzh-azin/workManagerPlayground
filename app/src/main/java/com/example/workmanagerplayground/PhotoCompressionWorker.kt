@@ -13,25 +13,27 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import kotlin.math.roundToInt
 
-class PhotoCompressWorker(private val appContext: Context, private val params: WorkerParameters) :
-    CoroutineWorker(appContext, params) {
+
+class PhotoCompressionWorker(
+    private val appContext: Context,
+    private val params: WorkerParameters
+) : CoroutineWorker(appContext, params) {
 
     override suspend fun doWork(): Result {
         return withContext(Dispatchers.IO) {
             val stringUri = params.inputData.getString(KEY_CONTENT_URI)
             val compressionThresholdInBytes = params.inputData.getLong(
-                KEY_COMPRESSION_THRESHOLD, 0
+                KEY_COMPRESSION_THRESHOLD,
+                0L
             )
             val uri = Uri.parse(stringUri)
             val bytes = appContext.contentResolver.openInputStream(uri)?.use {
                 it.readBytes()
             } ?: return@withContext Result.failure()
-
             val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
 
             var outputBytes: ByteArray
             var quality = 100
-
             do {
                 val outputStream = ByteArrayOutputStream()
                 outputStream.use { outputStream ->
@@ -46,7 +48,7 @@ class PhotoCompressWorker(private val appContext: Context, private val params: W
 
             Result.success(
                 workDataOf(
-                    KEY_RESULT_PATH to file.absoluteFile
+                    KEY_RESULT_PATH to file.absolutePath
                 )
             )
         }

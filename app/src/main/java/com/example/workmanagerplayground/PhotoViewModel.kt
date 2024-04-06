@@ -14,6 +14,7 @@ class PhotoViewModel : ViewModel() {
         private set
 
     var compressedBitmap: Bitmap? by mutableStateOf(null)
+        private set
 
     var workId: UUID? by mutableStateOf(null)
         private set
@@ -22,11 +23,11 @@ class PhotoViewModel : ViewModel() {
         uncompressedUri = uri
     }
 
-    fun updateCompressedBitmap(bitmap: Bitmap) {
-        compressedBitmap = bitmap
+    fun updateCompressedBitmap(bmp: Bitmap?) {
+        compressedBitmap = bmp
     }
 
-    fun updateWorkId(uuid: UUID) {
+    fun updateWorkId(uuid: UUID?) {
         workId = uuid
     }
 }

@@ -68,4 +68,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.io.coil.compose)
+    implementation(libs.androidx.runtime.livedata)
 }
